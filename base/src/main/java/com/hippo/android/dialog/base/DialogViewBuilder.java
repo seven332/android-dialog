@@ -44,6 +44,8 @@ public class DialogViewBuilder {
   private CharSequence message;
   private MovementMethod messageMovementMethod;
 
+  private boolean stackButtons;
+
   private int positiveButtonResId;
   private CharSequence positiveButtonText;
   private DialogInterface.OnClickListener positiveButtonListener;
@@ -110,6 +112,14 @@ public class DialogViewBuilder {
    */
   public DialogViewBuilder setMessageMovementMethod(MovementMethod method) {
     messageMovementMethod = method;
+    return this;
+  }
+
+  /**
+   * Shows stacked full-width buttons instead of side-by-side buttons.
+   */
+  public DialogViewBuilder setStackButtons(boolean stack) {
+    stackButtons = stack;
     return this;
   }
 
@@ -297,7 +307,9 @@ public class DialogViewBuilder {
     } else if (positiveButtonText != null || negativeButtonText != null
         || neutralButtonText != null) {
       // Side buttons
-      inflater.inflate(R.layout.andialog_side_buttons, root);
+      inflater.inflate(
+          stackButtons ? R.layout.andialog_stack_buttons : R.layout.andialog_side_buttons,
+          root);
 
       Button positive = (Button) root.findViewById(R.id.andialog_positive_button);
       if (positiveButtonText != null) {

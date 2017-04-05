@@ -15,19 +15,16 @@
   ~ limitations under the License.
   -->
 
-<resources>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <style name="AnDialog.SideButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-    <item name="android:minHeight">36dp</item>
-    <item name="android:singleLine">true</item>
-    <item name="android:maxLines">1</item>
-    <item name="android:background">@drawable/andialog_side_button_background</item>
-  </style>
+  <item
+    android:state_focused="true"
+    android:drawable="@drawable/andialog_stack_button_background_default"/>
 
-  <style name="AnDialog.StackButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-    <item name="android:minHeight">48dp</item>
-    <item name="android:background">@drawable/andialog_stack_button_background</item>
-    <item name="android:textAlignment">textEnd</item>
-  </style>
+  <item
+    android:state_pressed="true"
+    android:drawable="@drawable/andialog_stack_button_background_default"/>
 
-</resources>
+  <item android:drawable="@android:color/transparent"/>
+
+</selector>

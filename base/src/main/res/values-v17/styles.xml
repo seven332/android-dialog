@@ -17,26 +17,10 @@
 
 <resources>
 
-  <style name="AnDialog"/>
-
-  <style name="AnDialog.Title" parent="RtlOverlay.DialogWindowTitle.AppCompat">
-    <item name="android:maxLines">2</item>
-  </style>
-
-  <style name="AnDialog.Message" parent="TextAppearance.AppCompat.Subhead"/>
-
-  <style name="AnDialog.SideButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-    <item name="android:minHeight">36dp</item>
-    <item name="android:singleLine">true</item>
-    <item name="android:maxLines">1</item>
-    <item name="android:background">@drawable/andialog_side_button_background</item>
-    <item name="backgroundTint">?attr/colorButtonNormal</item>
-  </style>
-
   <style name="AnDialog.StackButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
     <item name="android:minHeight">48dp</item>
     <item name="android:background">@drawable/andialog_stack_button_background</item>
-    <item name="android:gravity">right|center_vertical</item>
+    <item name="android:textAlignment">textEnd</item>
     <item name="backgroundTint">?attr/colorButtonNormal</item>
   </style>
 

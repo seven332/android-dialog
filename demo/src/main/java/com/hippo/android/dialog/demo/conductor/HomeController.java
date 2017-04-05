@@ -40,7 +40,8 @@ public class HomeController extends Controller {
     ListView list = (ListView) inflater.inflate(R.layout.controller_home, container, false);
     list.setAdapter(new ArrayAdapter<>(inflater.getContext(), android.R.layout.simple_list_item_1,
         new String[] {
-            "AnDialogController",
+            "Example",
+            "Stack Buttons"
         }));
     list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
@@ -54,6 +55,9 @@ public class HomeController extends Controller {
         switch (position) {
           case 0:
             controller = new CustomDialog();
+            break;
+          case 1:
+            controller = new StackButtonDialog();
             break;
           default:
             throw new IllegalStateException();
