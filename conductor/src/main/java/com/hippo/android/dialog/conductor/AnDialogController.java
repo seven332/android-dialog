@@ -20,8 +20,11 @@ package com.hippo.android.dialog.conductor;
  * Created by Hippo on 4/3/2017.
  */
 
+import android.os.Bundle;
+import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StyleRes;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +37,20 @@ import com.hippo.conductor.dialog.DialogController;
  * {@code alertDialogTheme} and {@link DialogView}.
  */
 public abstract class AnDialogController extends DialogController {
+
+  public AnDialogController() {}
+
+  public AnDialogController(@StyleRes int themeId) {
+    super(themeId);
+  }
+
+  /**
+   * Do <b>NOT</b> call it.
+   */
+  @Keep
+  public AnDialogController(Bundle bundle) {
+    super(bundle);
+  }
 
   @Override
   public int getActualThemeId() {
