@@ -27,7 +27,9 @@
 
   <style name="AnDialog.SideButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
     <item name="android:minHeight">36dp</item>
-    <item name="android:background">@drawable/andialog_button_background</item>
+    <item name="android:singleLine">true</item>
+    <item name="android:maxLines">1</item>
+    <item name="android:background">@drawable/andialog_side_button_background</item>
     <item name="backgroundTint">?attr/colorButtonNormal</item>
   </style>
 

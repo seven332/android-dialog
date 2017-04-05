@@ -15,12 +15,10 @@
   ~ limitations under the License.
   -->
 
-<ripple
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:color="?attr/colorControlHighlight">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <item
-    android:id="@android:id/mask"
-    android:drawable="@drawable/andialog_button_background_default"/>
+  <item android:state_focused="true" android:drawable="@drawable/andialog_side_button_background_default"/>
+  <item android:state_pressed="true" android:drawable="@drawable/andialog_side_button_background_default"/>
+  <item android:drawable="@android:color/transparent"/>
 
-</ripple>
+</selector>
