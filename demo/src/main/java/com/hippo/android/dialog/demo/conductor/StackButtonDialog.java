@@ -36,18 +36,18 @@ public class StackButtonDialog extends AnDialogController {
   protected DialogView onCreateDialogView(@NonNull LayoutInflater inflater,
       @NonNull ViewGroup container) {
     return new DialogViewBuilder()
-        .setTitle("Use Google's location service?")
-        .setMessage("Let Google help apps determine location. "
+        .title("Use Google's location service?")
+        .message("Let Google help apps determine location. "
             + "This means sending anonymous location data to Google, "
             + "even when no apps are running.")
-        .setPositiveButton("turn on speed boost", new OnClickListener() {
+        .positiveButton("turn on speed boost", new OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             Toast.makeText(getActivity(), "Don't turn it on", Toast.LENGTH_SHORT).show();
           }
         })
-        .setNegativeButton("no thanks", null)
-        .setStackButtons(true)
+        .negativeButton("no thanks", null)
+        .stackButtons(true)
         .build(inflater, container);
   }
 }

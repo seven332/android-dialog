@@ -66,9 +66,9 @@ public class DialogViewBuilder {
   /**
    * Sets the title to display as header.
    *
-   * @see #setTitle(CharSequence)
+   * @see #title(CharSequence)
    */
-  public DialogViewBuilder setTitle(@StringRes int resId) {
+  public DialogViewBuilder title(@StringRes int resId) {
     titleResId = resId;
     return this;
   }
@@ -76,9 +76,9 @@ public class DialogViewBuilder {
   /**
    * Sets the title to display as header.
    *
-   * @see #setTitle(int)
+   * @see #title(int)
    */
-  public DialogViewBuilder setTitle(CharSequence text) {
+  public DialogViewBuilder title(CharSequence text) {
     title = text;
     return this;
   }
@@ -86,10 +86,10 @@ public class DialogViewBuilder {
   /**
    * Sets the message to display as content.
    *
-   * @see #setMessage(CharSequence)
-   * @see #setMessageMovementMethod(MovementMethod)
+   * @see #message(CharSequence)
+   * @see #messageMovementMethod(MovementMethod)
    */
-  public DialogViewBuilder setMessage(int resId) {
+  public DialogViewBuilder message(int resId) {
     messageResId = resId;
     return this;
   }
@@ -97,10 +97,10 @@ public class DialogViewBuilder {
   /**
    * Sets the message to display as content.
    *
-   * @see #setMessage(int)
-   * @see #setMessageMovementMethod(MovementMethod)
+   * @see #message(int)
+   * @see #messageMovementMethod(MovementMethod)
    */
-  public DialogViewBuilder setMessage(CharSequence text) {
+  public DialogViewBuilder message(CharSequence text) {
     message = text;
     return this;
   }
@@ -108,10 +108,10 @@ public class DialogViewBuilder {
   /**
    * Sets a {@link MovementMethod} for the message view.
    *
-   * @see #setMessage(int)
-   * @see #setMessage(CharSequence)
+   * @see #message(int)
+   * @see #message(CharSequence)
    */
-  public DialogViewBuilder setMessageMovementMethod(MovementMethod method) {
+  public DialogViewBuilder messageMovementMethod(MovementMethod method) {
     messageMovementMethod = method;
     return this;
   }
@@ -119,7 +119,7 @@ public class DialogViewBuilder {
   /**
    * Shows stacked full-width buttons instead of side-by-side buttons.
    */
-  public DialogViewBuilder setStackButtons(boolean stack) {
+  public DialogViewBuilder stackButtons(boolean stack) {
     stackButtons = stack;
     return this;
   }
@@ -130,9 +130,9 @@ public class DialogViewBuilder {
    * If the listener is {@code null}, the dialog dismissed instead
    * when the positive button is pressed.
    *
-   * @see #setPositiveButton(CharSequence, DialogInterface.OnClickListener)
+   * @see #positiveButton(CharSequence, DialogInterface.OnClickListener)
    */
-  public DialogViewBuilder setPositiveButton(
+  public DialogViewBuilder positiveButton(
       @StringRes int resId, DialogInterface.OnClickListener listener) {
     positiveButtonResId = resId;
     positiveButtonListener = listener;
@@ -145,9 +145,9 @@ public class DialogViewBuilder {
    * If the listener is {@code null}, the dialog dismissed instead
    * when the positive button is pressed.
    *
-   * @see #setPositiveButton(int, DialogInterface.OnClickListener)
+   * @see #positiveButton(int, DialogInterface.OnClickListener)
    */
-  public DialogViewBuilder setPositiveButton(
+  public DialogViewBuilder positiveButton(
       CharSequence text, DialogInterface.OnClickListener listener) {
     positiveButtonText = text;
     positiveButtonListener = listener;
@@ -160,9 +160,9 @@ public class DialogViewBuilder {
    * If the listener is {@code null}, the dialog dismissed instead
    * when the negative button is pressed.
    *
-   * @see #setNegativeButton(CharSequence, DialogInterface.OnClickListener)
+   * @see #negativeButton(CharSequence, DialogInterface.OnClickListener)
    */
-  public DialogViewBuilder setNegativeButton(
+  public DialogViewBuilder negativeButton(
       @StringRes int resId, DialogInterface.OnClickListener listener) {
     negativeButtonResId = resId;
     negativeButtonListener = listener;
@@ -175,9 +175,9 @@ public class DialogViewBuilder {
    * If the listener is {@code null}, the dialog dismissed instead
    * when the negative button is pressed.
    *
-   * @see #setNegativeButton(int, DialogInterface.OnClickListener)
+   * @see #negativeButton(int, DialogInterface.OnClickListener)
    */
-  public DialogViewBuilder setNegativeButton(
+  public DialogViewBuilder negativeButton(
       CharSequence text, DialogInterface.OnClickListener listener) {
     negativeButtonText = text;
     negativeButtonListener = listener;
@@ -190,9 +190,9 @@ public class DialogViewBuilder {
    * If the listener is {@code null}, the dialog dismissed instead
    * when the neutral button is pressed.
    *
-   * @see #setNeutralButton(CharSequence, DialogInterface.OnClickListener)
+   * @see #neutralButton(CharSequence, DialogInterface.OnClickListener)
    */
-  public DialogViewBuilder setNeutralButton(
+  public DialogViewBuilder neutralButton(
       @StringRes int resId, DialogInterface.OnClickListener listener) {
     neutralButtonResId = resId;
     neutralButtonListener = listener;
@@ -205,9 +205,9 @@ public class DialogViewBuilder {
    * If the listener is {@code null}, the dialog dismissed instead
    * when the neutral button is pressed.
    *
-   * @see #setNeutralButton(int, DialogInterface.OnClickListener)
+   * @see #neutralButton(int, DialogInterface.OnClickListener)
    */
-  public DialogViewBuilder setNeutralButton(
+  public DialogViewBuilder neutralButton(
       CharSequence text, DialogInterface.OnClickListener listener) {
     neutralButtonText = text;
     neutralButtonListener = listener;

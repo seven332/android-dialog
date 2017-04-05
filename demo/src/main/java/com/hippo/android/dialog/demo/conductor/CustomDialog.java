@@ -36,17 +36,17 @@ public class CustomDialog extends AnDialogController {
   protected DialogView onCreateDialogView(@NonNull LayoutInflater inflater,
       @NonNull ViewGroup container) {
     return new DialogViewBuilder()
-        .setTitle("Use Google's location service?")
-        .setMessage("Let Google help apps determine location. "
+        .title("Use Google's location service?")
+        .message("Let Google help apps determine location. "
             + "This means sending anonymous location data to Google, "
             + "even when no apps are running.")
-        .setPositiveButton("AGREE", new OnClickListener() {
+        .positiveButton("AGREE", new OnClickListener() {
           @Override
           public void onClick(DialogInterface dialog, int which) {
             Toast.makeText(getActivity(), "Don't agree", Toast.LENGTH_SHORT).show();
           }
         })
-        .setNegativeButton("DISAGREE", null)
+        .negativeButton("DISAGREE", null)
         .build(inflater, container);
   }
 }

@@ -53,7 +53,7 @@ public class CustomContentDialog extends AnDialogController {
       @NonNull ViewGroup container) {
     View content = inflater.inflate(R.layout.dialog_content_custom, null);
     return new DialogViewBuilder()
-        .setTitle("Custom Title")
+        .title("Custom Title")
         .customContent(content, inScrollView)
         .build(inflater, container);
   }
