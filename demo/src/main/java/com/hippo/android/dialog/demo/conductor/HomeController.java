@@ -41,7 +41,9 @@ public class HomeController extends Controller {
     list.setAdapter(new ArrayAdapter<>(inflater.getContext(), android.R.layout.simple_list_item_1,
         new String[] {
             "Example",
-            "Stack Buttons"
+            "Stack Buttons",
+            "Custom Content",
+            "Custom Content in ScrollView",
         }));
     list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
@@ -58,6 +60,12 @@ public class HomeController extends Controller {
             break;
           case 1:
             controller = new StackButtonDialog();
+            break;
+          case 2:
+            controller = new CustomContentDialog(false);
+            break;
+          case 3:
+            controller = new CustomContentDialog(true);
             break;
           default:
             throw new IllegalStateException();

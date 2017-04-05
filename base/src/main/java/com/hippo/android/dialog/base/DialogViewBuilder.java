@@ -60,6 +60,7 @@ public class DialogViewBuilder {
 
   private View customHeader;
   private View customContent;
+  private boolean customContentInScrollView;
   private View customFooter;
 
   /**
@@ -218,8 +219,9 @@ public class DialogViewBuilder {
     return this;
   }
 
-  public DialogViewBuilder customContent(View content) {
+  public DialogViewBuilder customContent(View content, boolean inScrollView) {
     customContent = content;
+    customContentInScrollView = inScrollView;
     return this;
   }
 
@@ -269,17 +271,31 @@ public class DialogViewBuilder {
     return (IndicatingScrollView) container.findViewById(R.id.andialog_scroll);
   }
 
+  private Indicator addCustomContent(DialogView root) {
+    root.addView(customContent,
+        ViewGroup.LayoutParams.MATCH_PARENT, 0);
+    ((DialogView.LayoutParams) customContent.getLayoutParams()).weight = 1;
+    // Check custom content
+    if (customContent instanceof Indicator) {
+      return (Indicator) customContent;
+    } else {
+      return null;
+    }
+  }
+
+  private Indicator addCustomContentInScrollView(LayoutInflater inflater, DialogView root) {
+    IndicatingScrollView scrollView = inflaterScroll(inflater, root);
+    scrollView.addView(customContent,
+        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    return scrollView;
+  }
+
   private Indicator buildContent(LayoutInflater inflater, DialogView root, boolean hasHeader) {
     if (customContent != null) {
-      // Custom content
-      root.addView(customContent,
-          ViewGroup.LayoutParams.MATCH_PARENT, 0);
-      ((DialogView.LayoutParams) customContent.getLayoutParams()).weight = 1;
-
-      if (customContent instanceof Indicator) {
-        return (Indicator) customContent;
+      if (customContentInScrollView) {
+        return addCustomContentInScrollView(inflater, root);
       } else {
-        return null;
+        return addCustomContent(root);
       }
 
     } else if (message != null) {
