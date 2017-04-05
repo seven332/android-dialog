@@ -34,6 +34,9 @@ import android.widget.TextView;
 
 /**
  * A builder to build {@link DialogView}.
+ * <p>
+ * A {@link DialogView} has three parts: header, content and footer.
+ * Each part could be preset view or custom view.
  */
 public class DialogViewBuilder {
 
@@ -214,17 +217,29 @@ public class DialogViewBuilder {
     return this;
   }
 
+  /**
+   * Sets custom header view.
+   */
   public DialogViewBuilder customHeader(View header) {
     customHeader = header;
     return this;
   }
 
+  /**
+   * Sets custom content view.
+   *
+   * @param inScrollView {@code true} to wrap the custom content view
+   *                     in a {@link android.widget.ScrollView}.
+   */
   public DialogViewBuilder customContent(View content, boolean inScrollView) {
     customContent = content;
     customContentInScrollView = inScrollView;
     return this;
   }
 
+  /**
+   * Sets custom footer view.
+   */
   public DialogViewBuilder customFooter(View footer) {
     customFooter = footer;
     return this;

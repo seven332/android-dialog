@@ -20,9 +20,18 @@ package com.hippo.android.dialog.base;
  * Created by Hippo on 4/5/2017.
  */
 
+/**
+ * A {@code Indicator} and show something to indicate it could still scroll up or down.
+ */
 public interface Indicator {
 
+  /**
+   * Controls whether the indicator of scrolling up is enabled.
+   */
   void setTopIndicatorEnabled(boolean enabled);
 
+  /**
+   * Controls whether the indicator of scrolling down is enabled.
+   */
   void setBottomIndicatorEnabled(boolean enabled);
 }
