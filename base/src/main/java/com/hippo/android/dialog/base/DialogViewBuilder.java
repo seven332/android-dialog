@@ -269,7 +269,7 @@ public class DialogViewBuilder {
     return (IndicatingScrollView) container.findViewById(R.id.andialog_scroll);
   }
 
-  private Indicator buildContent(LayoutInflater inflater, DialogView root) {
+  private Indicator buildContent(LayoutInflater inflater, DialogView root, boolean hasHeader) {
     if (customContent != null) {
       // Custom content
       root.addView(customContent,
@@ -290,6 +290,13 @@ public class DialogViewBuilder {
       messageView.setText(message);
       if (messageMovementMethod != null) {
         messageView.setMovementMethod(messageMovementMethod);
+      }
+      // Fix padding
+      if (!hasHeader) {
+        // Add top padding for message parent if no header
+        View messageParent = scrollView.findViewById(R.id.andialog_message_parent);
+        messageParent.setPadding(messageParent.getPaddingLeft(), messageParent.getPaddingBottom(),
+            messageParent.getPaddingRight(), messageParent.getPaddingBottom());
       }
       return scrollView;
     }
@@ -354,7 +361,7 @@ public class DialogViewBuilder {
 
     DialogView root = (DialogView) inflater.inflate(R.layout.andialog_base, container, false);
     boolean hasHeader = buildHeader(inflater, root);
-    Indicator indicator = buildContent(inflater, root);
+    Indicator indicator = buildContent(inflater, root, hasHeader);
     boolean hasFooter = buildFooter(inflater, root);
 
     // Configures indicator
