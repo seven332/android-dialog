@@ -22,6 +22,7 @@ package com.hippo.android.dialog.base;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.ArrayRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -29,7 +30,10 @@ import android.text.method.MovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 /**
@@ -46,6 +50,10 @@ public class DialogViewBuilder {
   private int messageResId;
   private CharSequence message;
   private MovementMethod messageMovementMethod;
+
+  private int itemsResId;
+  private CharSequence[] items;
+  private DialogInterface.OnClickListener itemsListener;
 
   private boolean stackButtons;
 
@@ -116,6 +124,26 @@ public class DialogViewBuilder {
    */
   public DialogViewBuilder messageMovementMethod(MovementMethod method) {
     messageMovementMethod = method;
+    return this;
+  }
+
+  /**
+   * Set a list of items to be displayed in the dialog as the content, you will be notified of the
+   * selected item via the supplied listener.
+   */
+  public DialogViewBuilder items(@ArrayRes int resId, DialogInterface.OnClickListener listener) {
+    itemsResId = resId;
+    itemsListener = listener;
+    return this;
+  }
+
+  /**
+   * Set a list of items to be displayed in the dialog as the content, you will be notified of the
+   * selected item via the supplied listener.
+   */
+  public DialogViewBuilder items(CharSequence[] items, DialogInterface.OnClickListener listener) {
+    this.items = items;
+    this.itemsListener = listener;
     return this;
   }
 
@@ -252,6 +280,9 @@ public class DialogViewBuilder {
     if (messageResId != 0) {
       message = context.getString(messageResId);
     }
+    if (itemsResId != 0) {
+      items = context.getResources().getTextArray(itemsResId);
+    }
     if (positiveButtonResId != 0) {
       positiveButtonText = context.getString(positiveButtonResId);
     }
@@ -330,6 +361,15 @@ public class DialogViewBuilder {
             messageParent.getPaddingRight(), messageParent.getPaddingBottom());
       }
       return scrollView;
+
+    } else if (items != null) {
+      // Items list
+      inflater.inflate(R.layout.andialog_list, root);
+      IndicatingListView list = (IndicatingListView) root.findViewById(R.id.andialog_list);
+      list.setAdapter(new ArrayAdapter<>(inflater.getContext(), R.layout.andialog_item, items));
+      if (itemsListener != null) {
+        list.setOnItemClickListener(new ItemClickListener(root, itemsListener));
+      }
     }
 
     return null;
@@ -425,6 +465,22 @@ public class DialogViewBuilder {
         // Dismiss the dialog if no listener
         view.getDialog().dismiss();
       }
+    }
+  }
+
+  private static final class ItemClickListener implements ListView.OnItemClickListener {
+
+    private DialogView dialogView;
+    private DialogInterface.OnClickListener listener;
+
+    public ItemClickListener(DialogView dialogView, DialogInterface.OnClickListener listener) {
+      this.dialogView = dialogView;
+      this.listener = listener;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+      listener.onClick(dialogView.getDialog(), position);
     }
   }
 }

@@ -44,6 +44,7 @@ public class HomeController extends Controller {
             "Stack Buttons",
             "Custom Content",
             "Custom Content in ScrollView",
+            "List",
         }));
     list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
@@ -66,6 +67,9 @@ public class HomeController extends Controller {
             break;
           case 3:
             controller = new CustomContentDialog(true);
+            break;
+          case 4:
+            controller = new ListDialog();
             break;
           default:
             throw new IllegalStateException();
