@@ -22,6 +22,7 @@ package com.hippo.android.dialog.demo.conductor;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +42,7 @@ public class CustomContentDialog extends AnDialogController {
     this.inScrollView = inScrollView;
   }
 
+  @Keep
   public CustomContentDialog(Bundle bundle) {
     super(bundle);
     inScrollView = bundle.getBoolean(KEY_IN_SCROLL_VIEW);

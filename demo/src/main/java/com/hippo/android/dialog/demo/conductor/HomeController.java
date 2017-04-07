@@ -40,11 +40,25 @@ public class HomeController extends Controller {
     ListView list = (ListView) inflater.inflate(R.layout.controller_home, container, false);
     list.setAdapter(new ArrayAdapter<>(inflater.getContext(), android.R.layout.simple_list_item_1,
         new String[] {
-            "Example",
+            "Message",
+            "Message without Header",
+            "Message without Footer",
+            "Message without Header and Footer",
+            "Long Message",
+            "Long Message without Header",
+            "Long Message without Footer",
+            "Long Message without Header and Footer",
+            "List",
+            "List without Header",
+            "List without Footer",
+            "List without Header and Footer",
+            "Long List",
+            "Long List without Header",
+            "Long List without Footer",
+            "Long List without Header and Footer",
             "Stack Buttons",
             "Custom Content",
             "Custom Content in ScrollView",
-            "List",
         }));
     list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
@@ -57,19 +71,61 @@ public class HomeController extends Controller {
         Controller controller;
         switch (position) {
           case 0:
-            controller = new CustomDialog();
+            controller = new MessageDialog(true, true);
             break;
           case 1:
-            controller = new StackButtonDialog();
+            controller = new MessageDialog(false, true);
             break;
           case 2:
-            controller = new CustomContentDialog(false);
+            controller = new MessageDialog(true, false);
             break;
           case 3:
-            controller = new CustomContentDialog(true);
+            controller = new MessageDialog(false, false);
             break;
           case 4:
-            controller = new ListDialog();
+            controller = new LongMessageDialog(true, true);
+            break;
+          case 5:
+            controller = new LongMessageDialog(false, true);
+            break;
+          case 6:
+            controller = new LongMessageDialog(true, false);
+            break;
+          case 7:
+            controller = new LongMessageDialog(false, false);
+            break;
+          case 8:
+            controller = new ListDialog(true, true);
+            break;
+          case 9:
+            controller = new ListDialog(false, true);
+            break;
+          case 10:
+            controller = new ListDialog(true, false);
+            break;
+          case 11:
+            controller = new ListDialog(false, false);
+            break;
+          case 12:
+            controller = new LongListDialog(true, true);
+            break;
+          case 13:
+            controller = new LongListDialog(false, true);
+            break;
+          case 14:
+            controller = new LongListDialog(true, false);
+            break;
+          case 15:
+            controller = new LongListDialog(false, false);
+            break;
+          case 16:
+            controller = new StackButtonDialog();
+            break;
+          case 17:
+            controller = new CustomContentDialog(false);
+            break;
+          case 18:
+            controller = new CustomContentDialog(true);
             break;
           default:
             throw new IllegalStateException();

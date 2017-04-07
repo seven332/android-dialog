@@ -17,7 +17,7 @@
 package com.hippo.android.dialog.demo.conductor;
 
 /*
- * Created by Hippo on 4/6/2017.
+ * Created by Hippo on 4/4/2017.
  */
 
 import android.content.DialogInterface;
@@ -32,15 +32,15 @@ import com.hippo.android.dialog.base.DialogViewBuilder;
 import com.hippo.android.dialog.conductor.AnDialogController;
 import com.hippo.android.dialog.demo.Constants;
 
-public class ListDialog extends AnDialogController {
+public class MessageDialog extends AnDialogController {
 
-  private static final String KEY_HEADER = "ListDialog:header";
-  private static final String KEY_FOOTER = "ListDialog:footer";
+  private static final String KEY_HEADER = "MessageDialog:header";
+  private static final String KEY_FOOTER = "MessageDialog:footer";
 
   private boolean header;
   private boolean footer;
 
-  public ListDialog(boolean header, boolean footer) {
+  public MessageDialog(boolean header, boolean footer) {
     super();
 
     // Put args
@@ -53,18 +53,18 @@ public class ListDialog extends AnDialogController {
   }
 
   @Keep
-  public ListDialog(Bundle bundle) {
+  public MessageDialog(Bundle bundle) {
     super(bundle);
     header = bundle.getBoolean(KEY_HEADER);
     footer = bundle.getBoolean(KEY_FOOTER);
   }
 
   protected String getTitle() {
-    return Constants.LIST_TITLE;
+    return Constants.MESSAGE_TITLE;
   }
 
-  protected String[] getItems() {
-    return Constants.LIST;
+  protected String getMessage() {
+    return Constants.MESSAGE;
   }
 
   @NonNull
@@ -75,15 +75,15 @@ public class ListDialog extends AnDialogController {
     if (header) {
       builder.title(getTitle());
     }
-    builder.items(getItems(), new OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        Toast.makeText(getActivity(), "Click " + which, Toast.LENGTH_SHORT).show();
-      }
-    });
+    builder.message(getMessage());
     if (footer) {
-      builder.positiveButton(android.R.string.ok, null)
-          .negativeButton(android.R.string.cancel, null);
+      builder.positiveButton("agree", null)
+          .negativeButton("disagree", new OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+              Toast.makeText(getActivity(), "Don't disagree", Toast.LENGTH_SHORT).show();
+            }
+          });
     }
     return builder.build(inflater, container);
   }
