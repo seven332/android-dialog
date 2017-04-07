@@ -58,10 +58,20 @@ class DialogListView extends ListView implements DialogContent {
   @Override
   public void setHasHeader(boolean header) {
     indicator.setTopIndicatorEnabled(header);
+
+    if (header) {
+      // Clear top padding
+      setPadding(getPaddingLeft(), 0, getPaddingRight(), getPaddingBottom());
+    }
   }
 
   @Override
   public void setHasFooter(boolean footer) {
     indicator.setBottomIndicatorEnabled(footer);
+
+    if (footer) {
+      // Clear top padding
+      setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), 0);
+    }
   }
 }
