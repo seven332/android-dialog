@@ -312,31 +312,31 @@ public class DialogViewBuilder {
     return false;
   }
 
-  private IndicatingScrollView inflaterScroll(LayoutInflater inflater, ViewGroup container) {
+  private DialogScrollView inflaterScroll(LayoutInflater inflater, ViewGroup container) {
     inflater.inflate(R.layout.andialog_scroll, container);
-    return (IndicatingScrollView) container.findViewById(R.id.andialog_scroll);
+    return (DialogScrollView) container.findViewById(R.id.andialog_scroll);
   }
 
-  private Indicator addCustomContent(DialogView root) {
+  private DialogContent addCustomContent(DialogView root) {
     root.addView(customContent,
         ViewGroup.LayoutParams.MATCH_PARENT, 0);
     ((DialogView.LayoutParams) customContent.getLayoutParams()).weight = 1;
     // Check custom content
-    if (customContent instanceof Indicator) {
-      return (Indicator) customContent;
+    if (customContent instanceof DialogContent) {
+      return (DialogContent) customContent;
     } else {
       return null;
     }
   }
 
-  private Indicator addCustomContentInScrollView(LayoutInflater inflater, DialogView root) {
-    IndicatingScrollView scrollView = inflaterScroll(inflater, root);
+  private DialogContent addCustomContentInScrollView(LayoutInflater inflater, DialogView root) {
+    DialogScrollView scrollView = inflaterScroll(inflater, root);
     scrollView.addView(customContent,
         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     return scrollView;
   }
 
-  private Indicator buildContent(LayoutInflater inflater, DialogView root, boolean hasHeader) {
+  private DialogContent buildContent(LayoutInflater inflater, DialogView root) {
     if (customContent != null) {
       if (customContentInScrollView) {
         return addCustomContentInScrollView(inflater, root);
@@ -346,30 +346,24 @@ public class DialogViewBuilder {
 
     } else if (message != null) {
       // Message
-      IndicatingScrollView scrollView = inflaterScroll(inflater, root);
+      DialogScrollView scrollView = inflaterScroll(inflater, root);
       inflater.inflate(R.layout.andialog_message, scrollView);
       TextView messageView = (TextView) scrollView.findViewById(R.id.andialog_message);
       messageView.setText(message);
       if (messageMovementMethod != null) {
         messageView.setMovementMethod(messageMovementMethod);
       }
-      // Fix padding
-      if (!hasHeader) {
-        // Add top padding for message parent if no header
-        View messageParent = scrollView.findViewById(R.id.andialog_message_parent);
-        messageParent.setPadding(messageParent.getPaddingLeft(), messageParent.getPaddingBottom(),
-            messageParent.getPaddingRight(), messageParent.getPaddingBottom());
-      }
       return scrollView;
 
     } else if (items != null) {
       // Items list
       inflater.inflate(R.layout.andialog_list, root);
-      IndicatingListView list = (IndicatingListView) root.findViewById(R.id.andialog_list);
+      DialogListView list = (DialogListView) root.findViewById(R.id.andialog_list);
       list.setAdapter(new ArrayAdapter<>(inflater.getContext(), R.layout.andialog_item, items));
       if (itemsListener != null) {
         list.setOnItemClickListener(new ItemClickListener(root, itemsListener));
       }
+      return list;
     }
 
     return null;
@@ -432,13 +426,13 @@ public class DialogViewBuilder {
 
     DialogView root = (DialogView) inflater.inflate(R.layout.andialog_base, container, false);
     boolean hasHeader = buildHeader(inflater, root);
-    Indicator indicator = buildContent(inflater, root, hasHeader);
+    DialogContent content = buildContent(inflater, root);
     boolean hasFooter = buildFooter(inflater, root);
 
     // Configures indicator
-    if (indicator != null) {
-      indicator.setTopIndicatorEnabled(hasHeader);
-      indicator.setBottomIndicatorEnabled(hasFooter);
+    if (content != null) {
+      content.setHasFooter(hasHeader);
+      content.setHasFooter(hasFooter);
     }
 
     return root;

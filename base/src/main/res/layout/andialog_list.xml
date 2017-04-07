@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 
-<com.hippo.android.dialog.base.IndicatingListView
+<com.hippo.android.dialog.base.DialogListView
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@+id/andialog_list"
   android:layout_width="match_parent"
