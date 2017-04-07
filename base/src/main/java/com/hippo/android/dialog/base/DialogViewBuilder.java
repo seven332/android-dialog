@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -53,6 +54,7 @@ public class DialogViewBuilder {
 
   private int itemsResId;
   private CharSequence[] items;
+  private ListAdapter itemsAdapter;
   private DialogInterface.OnClickListener itemsListener;
 
   private boolean stackButtons;
@@ -144,6 +146,17 @@ public class DialogViewBuilder {
   public DialogViewBuilder items(CharSequence[] items, DialogInterface.OnClickListener listener) {
     this.items = items;
     this.itemsListener = listener;
+    return this;
+  }
+
+  /**
+   * Set a list of items, which are supplied by the given {@link ListAdapter}, to be
+   * displayed in the dialog as the content, you will be notified of the
+   * selected item via the supplied listener.
+   */
+  public DialogViewBuilder adapter(ListAdapter adapter, DialogInterface.OnClickListener listener) {
+    itemsAdapter = adapter;
+    itemsListener = listener;
     return this;
   }
 
@@ -273,7 +286,7 @@ public class DialogViewBuilder {
     return this;
   }
 
-  private void resolveResIds(Context context) {
+  private void resolveResources(Context context) {
     if (titleResId != 0) {
       title = context.getString(titleResId);
     }
@@ -282,6 +295,9 @@ public class DialogViewBuilder {
     }
     if (itemsResId != 0) {
       items = context.getResources().getTextArray(itemsResId);
+    }
+    if (items != null) {
+      itemsAdapter = new ArrayAdapter<>(context, R.layout.andialog_item, items);
     }
     if (positiveButtonResId != 0) {
       positiveButtonText = context.getString(positiveButtonResId);
@@ -355,11 +371,11 @@ public class DialogViewBuilder {
       }
       return scrollView;
 
-    } else if (items != null) {
+    } else if (itemsAdapter != null) {
       // Items list
       inflater.inflate(R.layout.andialog_list, root);
       DialogListView list = (DialogListView) root.findViewById(R.id.andialog_list);
-      list.setAdapter(new ArrayAdapter<>(inflater.getContext(), R.layout.andialog_item, items));
+      list.setAdapter(itemsAdapter);
       if (itemsListener != null) {
         list.setOnItemClickListener(new ItemClickListener(root, itemsListener));
       }
@@ -422,7 +438,7 @@ public class DialogViewBuilder {
    * Must call {@link DialogView#setDialog(DialogInterface)} later.
    */
   public DialogView build(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
-    resolveResIds(inflater.getContext());
+    resolveResources(inflater.getContext());
 
     DialogView root = (DialogView) inflater.inflate(R.layout.andialog_base, container, false);
     boolean hasHeader = buildHeader(inflater, root);
