@@ -431,7 +431,7 @@ public class DialogViewBuilder {
 
     // Configures indicator
     if (content != null) {
-      content.setHasFooter(hasHeader);
+      content.setHasHeader(hasHeader);
       content.setHasFooter(hasFooter);
     }
 
