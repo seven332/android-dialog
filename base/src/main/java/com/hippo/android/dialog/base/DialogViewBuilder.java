@@ -55,7 +55,7 @@ public class DialogViewBuilder {
   private int itemsResId;
   private CharSequence[] items;
   private int checkedItem;
-  private boolean[] checkedItems;
+  private int[] checkedItems;
   private boolean singleChoice;
   private boolean multiChoice;
   private ListAdapter itemsAdapter;
@@ -190,6 +190,37 @@ public class DialogViewBuilder {
     this.checkedItem = checkedItem;
     this.itemsListener = listener;
     this.singleChoice = true;
+    return this;
+  }
+
+  /**
+   * Set a list of items to be displayed in the dialog as the content,
+   * you will be notified of the selected item via the supplied listener.
+   * This should be an array type, e.g. R.array.foo. The list will have
+   * a check mark displayed to the right of the text for each checked
+   * item.
+   */
+  public DialogViewBuilder multiChoice(
+      @ArrayRes int resId, int[] checkedItems, DialogInterface.OnClickListener listener) {
+    this.itemsResId = resId;
+    this.checkedItems = checkedItems;
+    this.itemsListener = listener;
+    this.multiChoice = true;
+    return this;
+  }
+
+  /**
+   * Set a list of items to be displayed in the dialog as the content,
+   * you will be notified of the selected item via the supplied listener.
+   * The list will have a check mark displayed to the right of the text
+   * for each checked item.
+   */
+  public DialogViewBuilder multiChoice(
+      CharSequence[] items, int[] checkedItems, DialogInterface.OnClickListener listener) {
+    this.items = items;
+    this.checkedItems = checkedItems;
+    this.itemsListener = listener;
+    this.multiChoice = true;
     return this;
   }
 
@@ -334,8 +365,7 @@ public class DialogViewBuilder {
       if (singleChoice) {
         itemLayoutResId = R.layout.andialog_item_single;
       } else if (multiChoice) {
-        // TODO
-        itemLayoutResId = R.layout.andialog_item_single;
+        itemLayoutResId = R.layout.andialog_item_multi;
       } else {
         itemLayoutResId = R.layout.andialog_item;
       }
@@ -429,7 +459,12 @@ public class DialogViewBuilder {
           list.setSelection(checkedItem);
         }
       } else if (multiChoice) {
-        // TODO
+        list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        if (checkedItems != null) {
+          for (int index : checkedItems) {
+            list.setItemChecked(index ,true);
+          }
+        }
       }
       return list;
     }
