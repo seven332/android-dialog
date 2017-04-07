@@ -19,8 +19,10 @@
 
   <style name="AnDialog"/>
 
-  <style name="AnDialog.Title" parent="RtlOverlay.DialogWindowTitle.AppCompat">
+  <style name="AnDialog.Title" parent="android:Widget">
     <item name="android:maxLines">2</item>
+    <item name="android:ellipsize">end</item>
+    <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
   </style>
 
   <style name="AnDialog.Message" parent="TextAppearance.AppCompat.Subhead"/>
