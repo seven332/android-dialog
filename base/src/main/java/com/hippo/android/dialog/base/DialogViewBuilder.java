@@ -54,6 +54,10 @@ public class DialogViewBuilder {
 
   private int itemsResId;
   private CharSequence[] items;
+  private int checkedItem;
+  private boolean[] checkedItems;
+  private boolean singleChoice;
+  private boolean multiChoice;
   private ListAdapter itemsAdapter;
   private DialogInterface.OnClickListener itemsListener;
 
@@ -157,6 +161,35 @@ public class DialogViewBuilder {
   public DialogViewBuilder adapter(ListAdapter adapter, DialogInterface.OnClickListener listener) {
     itemsAdapter = adapter;
     itemsListener = listener;
+    return this;
+  }
+
+  /**
+   * Set a list of items to be displayed in the dialog as the content, you will be notified of
+   * the selected item via the supplied listener. This should be an array type i.e.
+   * R.array.foo The list will have a check mark displayed to the right of the text for the
+   * checked item.
+   */
+  public DialogViewBuilder singleChoice(
+      @ArrayRes int resId, int checkedItem, DialogInterface.OnClickListener listener) {
+    this.itemsResId = resId;
+    this.checkedItem = checkedItem;
+    this.itemsListener = listener;
+    this.singleChoice = true;
+    return this;
+  }
+
+  /**
+   * Set a list of items to be displayed in the dialog as the content, you will be notified of
+   * the selected item via the supplied listener. The list will have a check mark displayed to
+   * the right of the text for the checked item.
+   */
+  public DialogViewBuilder singleChoice(
+      CharSequence[] items, int checkedItem, DialogInterface.OnClickListener listener) {
+    this.items = items;
+    this.checkedItem = checkedItem;
+    this.itemsListener = listener;
+    this.singleChoice = true;
     return this;
   }
 
@@ -297,7 +330,16 @@ public class DialogViewBuilder {
       items = context.getResources().getTextArray(itemsResId);
     }
     if (items != null) {
-      itemsAdapter = new ArrayAdapter<>(context, R.layout.andialog_item, items);
+      int itemLayoutResId;
+      if (singleChoice) {
+        itemLayoutResId = R.layout.andialog_item_single;
+      } else if (multiChoice) {
+        // TODO
+        itemLayoutResId = R.layout.andialog_item_single;
+      } else {
+        itemLayoutResId = R.layout.andialog_item;
+      }
+      itemsAdapter = new ArrayAdapter<>(context, itemLayoutResId, items);
     }
     if (positiveButtonResId != 0) {
       positiveButtonText = context.getString(positiveButtonResId);
@@ -378,6 +420,16 @@ public class DialogViewBuilder {
       list.setAdapter(itemsAdapter);
       if (itemsListener != null) {
         list.setOnItemClickListener(new ItemClickListener(root, itemsListener));
+      }
+      // Choice mode
+      if (singleChoice) {
+        list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        if (checkedItem >= 0 && checkedItem < itemsAdapter.getCount()) {
+          list.setItemChecked(checkedItem, true);
+          list.setSelection(checkedItem);
+        }
+      } else if (multiChoice) {
+        // TODO
       }
       return list;
     }
