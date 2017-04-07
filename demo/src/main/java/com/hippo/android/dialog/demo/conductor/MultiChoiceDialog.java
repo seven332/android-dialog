@@ -17,7 +17,7 @@
 package com.hippo.android.dialog.demo.conductor;
 
 /*
- * Created by Hippo on 4/6/2017.
+ * Created by Hippo on 4/7/2017.
  */
 
 import android.content.DialogInterface;
@@ -26,13 +26,13 @@ import android.widget.Toast;
 import com.hippo.android.dialog.base.DialogViewBuilder;
 import com.hippo.android.dialog.demo.Constants;
 
-public class ListDialog extends BaseDialog {
+public class MultiChoiceDialog extends BaseDialog {
 
-  public ListDialog(boolean header, boolean footer) {
+  public MultiChoiceDialog(boolean header, boolean footer) {
     super(header, footer);
   }
 
-  public ListDialog(Bundle bundle) {
+  public MultiChoiceDialog(Bundle bundle) {
     super(bundle);
   }
 
@@ -47,7 +47,7 @@ public class ListDialog extends BaseDialog {
 
   @Override
   protected void onAddDialogContent(DialogViewBuilder builder) {
-    builder.items(getItems(), new OnClickListener() {
+    builder.multiChoice(getItems(), new int[] {getItems().length - 1}, new OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
         Toast.makeText(getActivity(), "Click " + which, Toast.LENGTH_SHORT).show();

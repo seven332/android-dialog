@@ -17,41 +17,29 @@
 package com.hippo.android.dialog.demo.conductor;
 
 /*
- * Created by Hippo on 4/6/2017.
+ * Created by Hippo on 4/7/2017.
  */
 
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.widget.Toast;
-import com.hippo.android.dialog.base.DialogViewBuilder;
 import com.hippo.android.dialog.demo.Constants;
 
-public class ListDialog extends BaseDialog {
+public class LongSingleChoiceDialog extends SingleChoiceDialog {
 
-  public ListDialog(boolean header, boolean footer) {
+  public LongSingleChoiceDialog(boolean header, boolean footer) {
     super(header, footer);
   }
 
-  public ListDialog(Bundle bundle) {
+  public LongSingleChoiceDialog(Bundle bundle) {
     super(bundle);
   }
 
   @Override
   protected String getTitle() {
-    return Constants.LIST_TITLE;
-  }
-
-  protected String[] getItems() {
-    return Constants.LIST;
+    return Constants.LONG_LIST_TITLE;
   }
 
   @Override
-  protected void onAddDialogContent(DialogViewBuilder builder) {
-    builder.items(getItems(), new OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        Toast.makeText(getActivity(), "Click " + which, Toast.LENGTH_SHORT).show();
-      }
-    });
+  protected String[] getItems() {
+    return Constants.LONG_LIST;
   }
 }
