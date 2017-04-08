@@ -60,37 +60,68 @@ public class HomeController extends Controller {
     CLASSES[7] = LongMultiChoiceDialog.class;
   }
 
+  private static final String[] SINGLE_TITLE = {
+      "Stack Buttons",
+      "Custom Header",
+      "Custom Content",
+      "Custom Footer",
+  };
+
+  @SuppressWarnings("unchecked")
+  private static final Class<? extends Controller>[] SINGLE_CLASSES =
+      (Class<? extends Controller>[]) new Class<?>[SINGLE_TITLE.length];
+  static {
+    SINGLE_CLASSES[0] = StackButtonDialog.class;
+    SINGLE_CLASSES[1] = CustomHeaderDialog.class;
+    SINGLE_CLASSES[2] = CustomContentDialog.class;
+    SINGLE_CLASSES[3] = CustomFooterDialog.class;
+  }
+
   private String[] getItems() {
-    String[] titles = new String[TITLES.length * 4];
+    String[] titles = new String[TITLES.length * 4 + SINGLE_TITLE.length];
     int index = 0;
-    for (String TITLE : TITLES) {
-      titles[index++] = TITLE;
-      titles[index++] = TITLE + " without Header";
-      titles[index++] = TITLE + " without Footer";
-      titles[index++] = TITLE + " without Header and Footer";
+    for (String title : TITLES) {
+      titles[index++] = title;
+      titles[index++] = title + " without Header";
+      titles[index++] = title + " without Footer";
+      titles[index++] = title + " without Header and Footer";
+    }
+    for (String title : SINGLE_TITLE) {
+      titles[index++] = title;
     }
     return titles;
   }
 
   private Controller getController(int index) {
-    int i = index / 4;
-    int j = index % 4;
-    Class<? extends Controller> clazz = CLASSES[i];
-    try {
-      Constructor<? extends Controller> constructor = clazz.getConstructor(boolean.class, boolean.class);
-      switch (j) {
-        case 0:
-          return constructor.newInstance(true, true);
-        case 1:
-          return constructor.newInstance(false, true);
-        case 2:
-          return constructor.newInstance(true, false);
-        case 3:
-          return constructor.newInstance(false, false);
+    if (index < TITLES.length * 4) {
+      int i = index / 4;
+      int j = index % 4;
+      Class<? extends Controller> clazz = CLASSES[i];
+      try {
+        Constructor<? extends Controller> constructor = clazz.getConstructor(boolean.class, boolean.class);
+        switch (j) {
+          case 0:
+            return constructor.newInstance(true, true);
+          case 1:
+            return constructor.newInstance(false, true);
+          case 2:
+            return constructor.newInstance(true, false);
+          case 3:
+            return constructor.newInstance(false, false);
+        }
+        throw new IllegalStateException();
+      } catch (Exception e) {
+        throw new IllegalStateException(e);
       }
-      throw new IllegalStateException();
-    } catch (Exception e) {
-      throw new IllegalStateException(e);
+    } else {
+      index = index - TITLES.length * 4;
+      Class<? extends Controller> clazz = SINGLE_CLASSES[index];
+      try {
+        Constructor<? extends Controller> constructor = clazz.getConstructor();
+        return constructor.newInstance();
+      } catch (Exception e) {
+        throw new IllegalStateException(e);
+      }
     }
   }
 

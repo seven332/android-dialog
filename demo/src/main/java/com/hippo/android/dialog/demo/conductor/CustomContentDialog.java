@@ -38,6 +38,10 @@ public class CustomContentDialog extends AnDialogController {
 
   private boolean inScrollView;
 
+  public CustomContentDialog() {
+    this(true);
+  }
+
   public CustomContentDialog(boolean inScrollView) {
     this.inScrollView = inScrollView;
   }

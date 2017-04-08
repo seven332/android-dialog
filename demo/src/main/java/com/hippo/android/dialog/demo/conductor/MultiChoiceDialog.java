@@ -22,6 +22,7 @@ package com.hippo.android.dialog.demo.conductor;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.widget.Toast;
 import com.hippo.android.dialog.base.DialogViewBuilder;
 import com.hippo.android.dialog.demo.Constants;
@@ -47,11 +48,20 @@ public class MultiChoiceDialog extends BaseDialog {
 
   @Override
   protected void onAddDialogContent(DialogViewBuilder builder) {
-    builder.multiChoice(getItems(), new int[] {getItems().length - 1}, new OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        Toast.makeText(getActivity(), "Click " + which, Toast.LENGTH_SHORT).show();
-      }
-    });
+    SparseBooleanArray checkStates = null;
+    DialogInterface.OnClickListener listener = null;
+    if (getHeader()) {
+      checkStates = new SparseBooleanArray();
+      checkStates.put(getItems().length - 1, true);
+    }
+    if (getFooter()) {
+      listener = new OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+          Toast.makeText(getActivity(), "Click " + which, Toast.LENGTH_SHORT).show();
+        }
+      };
+    }
+    builder.multiChoice(getItems(), checkStates, listener);
   }
 }

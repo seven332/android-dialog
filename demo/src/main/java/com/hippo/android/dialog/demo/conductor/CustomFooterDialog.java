@@ -17,29 +17,31 @@
 package com.hippo.android.dialog.demo.conductor;
 
 /*
- * Created by Hippo on 4/5/2017.
+ * Created by Hippo on 4/8/2017.
  */
 
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import com.hippo.android.dialog.base.DialogView;
 import com.hippo.android.dialog.base.DialogViewBuilder;
 import com.hippo.android.dialog.conductor.AnDialogController;
 import com.hippo.android.dialog.demo.Constants;
+import com.hippo.android.dialog.demo.R;
 
-public class StackButtonDialog extends AnDialogController {
+public class CustomFooterDialog extends AnDialogController {
 
   @NonNull
   @Override
   protected DialogView onCreateDialogView(@NonNull LayoutInflater inflater,
       @NonNull ViewGroup container) {
+    ImageView imageView = new ImageView(inflater.getContext());
+    imageView.setImageDrawable(ContextCompat.getDrawable(inflater.getContext(), R.mipmap.ic_launcher));
     return new DialogViewBuilder()
-        .title(Constants.MESSAGE_TITLE)
         .message(Constants.MESSAGE)
-        .positiveButton("观止矣！若有他文，吾不敢请已", null)
-        .negativeButton("美哉轮焉！美哉奂焉！", null)
-        .stackButtons(true)
+        .customFooter(imageView)
         .build(inflater, container);
   }
 }

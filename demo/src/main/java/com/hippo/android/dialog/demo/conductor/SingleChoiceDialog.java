@@ -47,11 +47,19 @@ public class SingleChoiceDialog extends BaseDialog {
 
   @Override
   protected void onAddDialogContent(DialogViewBuilder builder) {
-    builder.singleChoice(getItems(), getItems().length - 1, new OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        Toast.makeText(getActivity(), "Click " + which, Toast.LENGTH_SHORT).show();
-      }
-    });
+    int checkedItem = -1;
+    DialogInterface.OnClickListener listener = null;
+    if (getHeader()) {
+      checkedItem = getItems().length - 1;
+    }
+    if (getFooter()) {
+      listener = new OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+          Toast.makeText(getActivity(), "Click " + which, Toast.LENGTH_SHORT).show();
+        }
+      };
+    }
+    builder.singleChoice(getItems(), checkedItem, listener);
   }
 }

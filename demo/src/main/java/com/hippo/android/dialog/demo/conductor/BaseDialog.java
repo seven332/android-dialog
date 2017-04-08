@@ -58,6 +58,14 @@ public abstract class BaseDialog extends AnDialogController {
     footer = bundle.getBoolean(KEY_FOOTER);
   }
 
+  public boolean getHeader() {
+    return header;
+  }
+
+  public boolean getFooter() {
+    return footer;
+  }
+
   @NonNull
   @Override
   protected DialogView onCreateDialogView(@NonNull LayoutInflater inflater,
