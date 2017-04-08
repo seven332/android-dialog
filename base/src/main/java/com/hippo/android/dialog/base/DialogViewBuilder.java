@@ -27,6 +27,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.text.method.MovementMethod;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +56,7 @@ public class DialogViewBuilder {
   private int itemsResId;
   private CharSequence[] items;
   private int checkedItem;
-  private int[] checkedItems;
+  private SparseBooleanArray checkStates;
   private boolean singleChoice;
   private boolean multiChoice;
   private ListAdapter itemsAdapter;
@@ -201,9 +202,10 @@ public class DialogViewBuilder {
    * item.
    */
   public DialogViewBuilder multiChoice(
-      @ArrayRes int resId, int[] checkedItems, DialogInterface.OnClickListener listener) {
+      @ArrayRes int resId, SparseBooleanArray checkStates,
+      DialogInterface.OnClickListener listener) {
     this.itemsResId = resId;
-    this.checkedItems = checkedItems;
+    this.checkStates = checkStates;
     this.itemsListener = listener;
     this.multiChoice = true;
     return this;
@@ -216,9 +218,10 @@ public class DialogViewBuilder {
    * for each checked item.
    */
   public DialogViewBuilder multiChoice(
-      CharSequence[] items, int[] checkedItems, DialogInterface.OnClickListener listener) {
+      CharSequence[] items, SparseBooleanArray checkStates,
+      DialogInterface.OnClickListener listener) {
     this.items = items;
-    this.checkedItems = checkedItems;
+    this.checkStates = checkStates;
     this.itemsListener = listener;
     this.multiChoice = true;
     return this;
@@ -447,9 +450,20 @@ public class DialogViewBuilder {
       // Items list
       inflater.inflate(R.layout.andialog_list, root);
       DialogListView list = (DialogListView) root.findViewById(R.id.andialog_list);
+      // Adapter
+      if (multiChoice && checkStates != null) {
+        itemsAdapter = new MultiChoiceAdapter(itemsAdapter, list, checkStates);
+      }
       list.setAdapter(itemsAdapter);
-      if (itemsListener != null) {
-        list.setOnItemClickListener(new ItemClickListener(root, itemsListener));
+      // Listener
+      ListView.OnItemClickListener listener = null;
+      if (multiChoice && checkStates != null) {
+        listener = new MultiChoiceListener(root, list, checkStates, itemsListener);
+      } else if (itemsListener != null) {
+        listener = new ItemClickListener(root, itemsListener);
+      }
+      if (listener != null) {
+        list.setOnItemClickListener(listener);
       }
       // Choice mode
       if (singleChoice) {
@@ -460,11 +474,6 @@ public class DialogViewBuilder {
         }
       } else if (multiChoice) {
         list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        if (checkedItems != null) {
-          for (int index : checkedItems) {
-            list.setItemChecked(index ,true);
-          }
-        }
       }
       return list;
     }
@@ -578,6 +587,53 @@ public class DialogViewBuilder {
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
       listener.onClick(dialogView.getDialog(), position);
+    }
+  }
+
+  private static final class MultiChoiceAdapter extends WrapperListAdapter {
+
+    private ListView listView;
+    private SparseBooleanArray checkStates;
+
+    public MultiChoiceAdapter(ListAdapter adapter, ListView listView, SparseBooleanArray checkStates) {
+      super(adapter);
+      this.listView = listView;
+      this.checkStates = checkStates;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+      View view = super.getView(position, convertView, parent);
+      boolean isItemChecked = checkStates.get(position);
+      if (isItemChecked) {
+        listView.setItemChecked(position, true);
+      }
+      return view;
+    }
+  }
+
+  private static final class MultiChoiceListener implements ListView.OnItemClickListener {
+
+    private DialogView dialogView;
+    private ListView listView;
+    private SparseBooleanArray checkStates;
+    private DialogInterface.OnClickListener listener;
+
+    public MultiChoiceListener(
+        DialogView dialogView, ListView listView, SparseBooleanArray checkStates,
+        DialogInterface.OnClickListener listener) {
+      this.dialogView = dialogView;
+      this.listView = listView;
+      this.checkStates = checkStates;
+      this.listener = listener;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+      checkStates.put(position, listView.isItemChecked(position));
+      if (listener != null) {
+        listener.onClick(dialogView.getDialog(), position);
+      }
     }
   }
 }
