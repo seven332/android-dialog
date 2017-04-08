@@ -25,6 +25,10 @@ import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.util.AttributeSet;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 /**
  * The view of dialog. Use {@link DialogViewBuilder} to create it.
@@ -46,9 +50,68 @@ public class DialogView extends LinearLayoutCompat {
   }
 
   /**
+   * Gets the title view used in the dialog.
+   * Returns {@code null} if it does not exist.
+   */
+  @Nullable
+  public TextView getTitleView() {
+    return (TextView) findViewById(R.id.andialog_title);
+  }
+
+  /**
+   * Gets the scroll view used in the dialog.
+   * Returns {@code null} if it does not exist.
+   */
+  @Nullable
+  public ScrollView getScrollView() {
+    return (ScrollView) findViewById(R.id.andialog_scroll);
+  }
+
+  /**
+   * Gets the message view used in the dialog.
+   * Returns {@code null} if it does not exist.
+   */
+  @Nullable
+  public TextView getMessageView() {
+    return (TextView) findViewById(R.id.andialog_message);
+  }
+
+  /**
+   * Gets the list view used in the dialog.
+   * Returns {@code null} if it does not exist.
+   */
+  @Nullable
+  public ListView getListView() {
+    return (ListView) findViewById(R.id.andialog_list);
+  }
+
+  /**
+   * Gets one of the buttons used in the dialog.
+   * Returns {@code null} if the specified button does not exist.
+   */
+  @Nullable
+  public Button getButton(int which) {
+    int id;
+    switch (which) {
+      case DialogInterface.BUTTON_POSITIVE:
+        id = R.id.andialog_positive_button;
+        break;
+      case DialogInterface.BUTTON_NEGATIVE:
+        id = R.id.andialog_negative_button;
+        break;
+      case DialogInterface.BUTTON_NEUTRAL:
+        id = R.id.andialog_neutral_button;
+        break;
+      default:
+        return null;
+    }
+    return (Button) findViewById(id);
+  }
+
+  /**
    * Attach this {@code DialogView} to a dialog.
    * <p>
-   * Must call after creating it.
+   * Must be called after creating it.
    */
   public void setDialog(DialogInterface dialog) {
     this.dialog = dialog;

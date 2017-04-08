@@ -20,6 +20,8 @@ package com.hippo.android.dialog.demo.conductor;
  * Created by Hippo on 4/5/2017.
  */
 
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -34,12 +36,18 @@ public class StackButtonDialog extends AnDialogController {
   @Override
   protected DialogView onCreateDialogView(@NonNull LayoutInflater inflater,
       @NonNull ViewGroup container) {
-    return new DialogViewBuilder()
+    DialogView view = new DialogViewBuilder()
         .title(Constants.MESSAGE_TITLE)
         .message(Constants.MESSAGE)
         .positiveButton("观止矣！若有他文，吾不敢请已", null)
         .negativeButton("美哉轮焉！美哉奂焉！", null)
         .stackButtons(true)
         .build(inflater, container);
+
+    view.getTitleView().setTextColor(Color.RED);
+    view.getMessageView().setTextColor(Color.BLUE);
+    view.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.GREEN);
+
+    return view;
   }
 }
