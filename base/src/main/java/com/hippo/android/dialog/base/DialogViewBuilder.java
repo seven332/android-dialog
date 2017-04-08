@@ -531,7 +531,7 @@ public class DialogViewBuilder {
   /**
    * Builds a {@link DialogView}.
    * <p>
-   * Must call {@link DialogView#setDialog(DialogInterface)} later.
+   * Should call {@link DialogView#setDialog(DialogInterface)} later.
    */
   public DialogView build(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
     resolveResources(inflater.getContext());
@@ -569,7 +569,10 @@ public class DialogViewBuilder {
         listener.onClick(view.getDialog(), which);
       } else {
         // Dismiss the dialog if no listener
-        view.getDialog().dismiss();
+        DialogInterface dialog = view.getDialog();
+        if (dialog != null) {
+          dialog.dismiss();
+        }
       }
     }
   }

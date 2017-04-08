@@ -111,16 +111,16 @@ public class DialogView extends LinearLayoutCompat {
   /**
    * Attach this {@code DialogView} to a dialog.
    * <p>
-   * Must be called after creating it.
+   * Should be called after creating it.
    */
   public void setDialog(DialogInterface dialog) {
     this.dialog = dialog;
   }
 
-  DialogInterface getDialog() {
-    if (dialog == null) {
-      throw new IllegalStateException();
-    }
+  /**
+   * Returns the dialog in {@link #setDialog(DialogInterface)}.
+   */
+  public DialogInterface getDialog() {
     return dialog;
   }
 }
